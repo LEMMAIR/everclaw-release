@@ -19,6 +19,7 @@ permissions:
 
 env:
   PRIVATE_REPO: Tishtrya/everclaw
+  BUILD_REF: ${{ github.event.inputs.version || github.event.client_payload.tag }}
 
 jobs:
   build:
@@ -45,20 +46,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Set build ref
-        id: ref
-        shell: bash
-        run: |
-          REF="${{ github.event.inputs.version || github.event.client_payload.tag }}"
-          echo "Checking out ref: $REF"
-          echo "value=$REF" >> $GITHUB_OUTPUT
-
       - name: Checkout private repo
         uses: actions/checkout@v4
         with:
           repository: ${{ env.PRIVATE_REPO }}
           token: ${{ secrets.EVERCLAW_REPO_TOKEN }}
-          ref: ${{ steps.ref.outputs.value }}
+          ref: ${{ env.BUILD_REF }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -97,14 +90,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set release tag
-        id: tag
-        shell: bash
-        run: |
-          TAG="${{ github.event.inputs.version || github.event.client_payload.tag }}"
-          echo "Releasing tag: $TAG"
-          echo "value=$TAG" >> $GITHUB_OUTPUT
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -119,7 +104,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag.outputs.value }}
+          tag_name: ${{ env.BUILD_REF }}
           generate_release_notes: true
           files: |
             artifacts/**/*.exe
