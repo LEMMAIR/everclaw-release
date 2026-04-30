@@ -68,7 +68,8 @@ jobs:
         run: ${{ matrix.build_cmd }}
         env:
           GH_TOKEN: ${{ secrets.EVERCLAW_REPO_TOKEN }}
-
+          LITE_MODE: 'true'
+          
       - name: Upload artifact (Windows)
         if: matrix.platform == 'win'
         uses: actions/upload-artifact@v4
