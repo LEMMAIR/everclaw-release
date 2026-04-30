@@ -67,7 +67,7 @@ jobs:
       - name: Build & Package
         run: ${{ matrix.build_cmd }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.EVERCLAW_REPO_TOKEN }}
 
       - name: Upload artifact (Windows)
         if: matrix.platform == 'win'
