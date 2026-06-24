@@ -31,17 +31,17 @@ jobs:
             platform: win
             arch: x64
             build_cmd: npm run package:desktop:win
-            artifact_name: everclaw-win-x64-setup
-          - os: macos-latest
-            platform: mac
-            arch: x64
-            build_cmd: npm run package:desktop:mac -- --x64
-            artifact_name: everclaw-mac-x64
-          - os: macos-latest
-            platform: mac
-            arch: arm64
-            build_cmd: npm run package:desktop:mac -- --arm64
-            artifact_name: everclaw-mac-arm64
+            artifact_name: fatima-win-x64-setup
+          # - os: macos-latest
+          #   platform: mac
+          #   arch: x64
+          #   build_cmd: npm run package:desktop:mac -- --x64
+          #   artifact_name: fatima-mac-x64
+          # - os: macos-latest
+          #   platform: mac
+          #   arch: arm64
+          #   build_cmd: npm run package:desktop:mac -- --arm64
+          #   artifact_name: fatima-mac-arm64
 
     runs-on: ${{ matrix.os }}
 
@@ -75,16 +75,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
-          path: release/Everclaw Setup *.exe
+          path: release/Fatima Setup *.exe
           if-no-files-found: error
 
-      - name: Upload artifact (macOS)
-        if: matrix.platform == 'mac'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact_name }}
-          path: release/Everclaw-*.zip
-          if-no-files-found: error
+      # - name: Upload artifact (macOS)
+      #   if: matrix.platform == 'mac'
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ matrix.artifact_name }}
+      #     path: release/Fatima-*.zip
+      #     if-no-files-found: error
 
   release:
     needs: build
